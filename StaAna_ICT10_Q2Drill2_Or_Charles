@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Members</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 5px;
+            background-color: #222;
+            font-family: Arial, sans-serif;
+            color: #222;
+        }
+
+        .container {
+            background-color: white;
+            padding: 10px 15px 20px;
+            min-height: 95vh;
+        }
+
+        h2 {
+            font-size: 26px;
+            font-weight: normal;
+            margin: 0 0 20px;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 9px 11px;
+            margin-bottom: 14px;
+            background-color: #eaf4ff;
+            border: 1px solid #d5e7f8;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #263d52;
+        }
+
+        input:focus {
+            outline: 2px solid #8ecdf5;
+        }
+
+        button {
+            background-color: #75bdf2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 9px 13px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #489fe0;
+        }
+
+        .members {
+            background-color: #e7f5ff;
+            color: #32658c;
+            padding: 15px;
+            margin-top: 22px;
+            border-radius: 7px;
+            font-size: 18px;
+            line-height: 1.6;
+            min-height: 300px;
+        }
+
+        .member-name {
+            display: block;
+        }
+
+        #total {
+            margin-top: 0;
+        }
+
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 22px;
+            }
+
+            .members {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Add new club member:</h2>
+
+        <form id="memberForm">
+            <input
+                type="text"
+                id="firstName"
+                placeholder="First name"
+                value="Josua"
+                required
+            >
+
+            <input
+                type="text"
+                id="lastName"
+                placeholder="Last name"
+                value="Ortiz"
+                required
+            >
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <div class="members">
+            <div>All members:</div>
+            <div id="memberList"></div>
+            <div id="total">Total members: 0</div>
+        </div>
+
+    </div>
+
+    <script>
+        const members = [
+            "Alice Blue",
+            "Anita Bath",
+            "Billy Sparks",
+            "Eileen Dover",
+            "Ella Vator",
+            "Francisco Portero",
+            "Joe Kerr",
+            "Juanito Lakarín",
+            "Justin Case",
+            "Ligaya Anonuevo",
+            "Paige Turner",
+            "Restituto Fruto",
+            "Sheldon Cooper",
+            "Tam Nguyen"
+        ];
+
+        const form = document.getElementById("memberForm");
+        const firstName = document.getElementById("firstName");
+        const lastName = document.getElementById("lastName");
+        const memberList = document.getElementById("memberList");
+        const total = document.getElementById("total");
+
+        function displayMembers() {
+            memberList.innerHTML = "";
+
+            members.sort((a, b) => a.localeCompare(b));
+
+            members.forEach(function(member) {
+                const item = document.createElement("div");
+                item.className = "member-name";
+                item.textContent = member;
+                memberList.appendChild(item);
+            });
+
+            total.textContent = "Total members: " + members.length;
+        }
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const first = firstName.value.trim();
+            const last = lastName.value.trim();
+
+            if (!first || !last) {
+                alert("Please enter both the first and last name.");
+                return;
+            }
+
+            const fullName = first + " " + last;
+
+            const alreadyExists = members.some(function(member) {
+                return member.toLowerCase() === fullName.toLowerCase();
+            });
+
+            if (alreadyExists) {
+                alert("This member is already on the list!");
+                return;
+            }
+
+            members.push(fullName);
+            displayMembers();
+
+            firstName.value = "";
+            lastName.value = "";
+            firstName.focus();
+        });
+
+        displayMembers();
+    </script>
+
+</body>
+</html>
